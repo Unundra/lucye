@@ -21,6 +21,10 @@
 
 static bool enable_wlan_rx_wake_ws = true;
 module_param(enable_wlan_rx_wake_ws, bool, 0644);
++static bool enable_timerfd_ws = true;
++module_param(enable_timerfd_ws, bool, 0644);
++static bool enable_netlink_ws = true;
++module_param(enable_netlink_ws, bool, 0644);
 
 #include "power.h"
 
@@ -460,7 +464,11 @@ static bool wakeup_source_blocker(struct wakeup_source *ws)
 	if (ws) {
 		wslen = strlen(ws->name);
 
-		if ((!enable_wlan_rx_wake_ws && !strncmp(ws->name, "wlan_rx_wake", wslen))) {
+		if ((!enable_wlan_rx_wake_ws && !strncmp(ws->name, "wlan_rx_wake", wslen)) ||
+			(!enable_timerfd_ws &&
+                       		!strncmp(ws->name, "[timerfd]", wslen)) ||
+			(!enable_netlink_ws &&
+                        	!strncmp(ws->name, "NETLINK", wslen))) {
 			if (ws->active) {
 				wakeup_source_deactivate(ws);
 				pr_info("forcefully deactivate wakeup source: %s\n",
