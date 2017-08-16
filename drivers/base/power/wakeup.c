@@ -21,7 +21,7 @@
 
 static bool enable_wlan_rx_wake_ws = true;
 module_param(enable_wlan_rx_wake_ws, bool, 0644);
-cdstatic bool enable_timerfd_ws = true;
+static bool enable_timerfd_ws = true;
 module_param(enable_timerfd_ws, bool, 0644);
 static bool enable_netlink_ws = true;
 module_param(enable_netlink_ws, bool, 0644);
